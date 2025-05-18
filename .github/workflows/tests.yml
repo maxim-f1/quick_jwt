@@ -63,6 +63,10 @@ jobs:
           COVERAGE=$(poetry run coverage report | grep TOTAL | awk '{print $NF}' | sed 's/%//')
           echo "Coverage: $COVERAGE%" > coverage_status.txt
 
+      - name: Debug coverage status
+        if: matrix.python-version == '3.13'
+        run: cat coverage_status.txt
+
       - name: Update GitHub status with coverage
         if: matrix.python-version == '3.13'
         uses: actions/github-script@v6
