@@ -6,8 +6,8 @@ from quick_jwt.config import QuickJWTConfig
 
 class QuickJWTMiddleware:
     __slots__ = (
-        'app',
-        'config',
+        "app",
+        "config",
     )
 
     def __init__(self, app: ASGIApp, config: QuickJWTConfig):
@@ -18,10 +18,10 @@ class QuickJWTMiddleware:
             )
         self.config = config
 
-    async def __call__(self, scope: Scope, receive: Receive, send: Send):
-        if scope['type'] in ('http',):
+    async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
+        if scope["type"] in ("http",):
             request = Request(scope, receive)
             request.state.quick_jwt_config = self.config
-            scope['request'] = request
+            scope["request"] = request
 
         await self.app(scope, receive, send)

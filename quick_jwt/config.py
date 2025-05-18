@@ -58,28 +58,28 @@ class QuickJWTConfig(BaseSettings):
     encode_key: str | bytes = Field(...)
     decode_key: str | bytes = Field(...)
 
-    access_token_name: str = Field('access')
+    access_token_name: str = Field("access")
     access_token_expires: timedelta = Field(timedelta(days=2))
-    access_token_path: str | None = Field('/')
+    access_token_path: str | None = Field("/")
     access_token_domain: str | None = Field(None)
     access_token_secure: bool = Field(False)
     access_token_httponly: bool = Field(False)
-    access_token_samesite: typing.Literal["lax", "strict", "none"] | None = Field('lax')
+    access_token_samesite: typing.Literal["lax", "strict", "none"] | None = Field("lax")
 
-    refresh_token_name: str = Field('refresh')
+    refresh_token_name: str = Field("refresh")
     refresh_token_expires: timedelta = Field(timedelta(weeks=2))
-    refresh_token_path: str | None = Field('/')
+    refresh_token_path: str | None = Field("/")
     refresh_token_domain: str | None = Field(None)
     refresh_token_secure: bool = Field(False)
     refresh_token_httponly: bool = Field(False)
-    refresh_token_samesite: typing.Literal["lax", "strict", "none"] | None = Field('lax')
+    refresh_token_samesite: typing.Literal["lax", "strict", "none"] | None = Field("lax")
 
-    encode_algorithm: str | None = Field('HS256')
+    encode_algorithm: str | None = Field("HS256")
     encode_headers: dict[str, Any] | None = Field(None)
     encode_json_encoder: type[json.JSONEncoder] | None = Field(None)
     encode_sort_headers: bool = Field(True)
 
-    decode_algorithms: Sequence[str] | None = Field(['HS256'])
+    decode_algorithms: Sequence[str] | None = Field(["HS256"])
     decode_options: dict[str, Any] | None = Field(None)
     decode_verify: bool | None = Field(None)
     decode_detached_payload: bytes | None = Field(None)
@@ -123,7 +123,7 @@ class QuickJWTConfig(BaseSettings):
                     Default: 'access'
                     """
                 )
-            ] = 'access',
+            ] = "access",
             access_token_expires: Annotated[
                 timedelta,
                 Doc(
@@ -141,7 +141,7 @@ class QuickJWTConfig(BaseSettings):
                     Default: '/'
                     """
                 )
-            ] = '/',
+            ] = "/",
             access_token_domain: Annotated[
                 str | None,
                 Doc(
@@ -177,7 +177,7 @@ class QuickJWTConfig(BaseSettings):
                     Default: 'lax'
                     """
                 )
-            ] = 'lax',
+            ] = "lax",
             refresh_token_name: Annotated[
                 str,
                 Doc(
@@ -186,7 +186,7 @@ class QuickJWTConfig(BaseSettings):
                     Default: 'refresh'
                     """
                 )
-            ] = 'refresh',
+            ] = "refresh",
             refresh_token_expires: Annotated[
                 timedelta,
                 Doc(
@@ -204,7 +204,7 @@ class QuickJWTConfig(BaseSettings):
                     Default: '/'
                     """
                 )
-            ] = '/',
+            ] = "/",
             refresh_token_domain: Annotated[
                 str | None,
                 Doc(
@@ -240,7 +240,7 @@ class QuickJWTConfig(BaseSettings):
                     Default: 'lax'
                     """
                 )
-            ] = 'lax',
+            ] = "lax",
             encode_algorithm: Annotated[
                 str | None,
                 Doc(
@@ -249,7 +249,7 @@ class QuickJWTConfig(BaseSettings):
                     Default: 'HS256'
                     """
                 )
-            ] = 'HS256',
+            ] = "HS256",
             encode_headers: Annotated[
                 dict[str, Any] | None,
                 Doc(
@@ -285,7 +285,7 @@ class QuickJWTConfig(BaseSettings):
                     Default: ['HS256']
                     """
                 )
-            ] = ('HS256',),
+            ] = ("HS256",),
             decode_options: Annotated[
                 dict[str, Any] | None,
                 Doc(
@@ -349,8 +349,8 @@ class QuickJWTConfig(BaseSettings):
                     """
                 )
             ] = 0,
-            **kwargs
-    ):
+            **kwargs: Any
+    ) -> None:
         super().__init__(
             driver=driver,
             encode_key=encode_key,
@@ -386,46 +386,46 @@ class QuickJWTConfig(BaseSettings):
 
     def build_encode_params(self) -> JWTEncodeKwargs:
         return {
-            'key': self.encode_key,
-            'algorithm': self.encode_algorithm,
-            'headers': self.encode_headers,
-            'json_encoder': self.encode_json_encoder,
-            'sort_headers': self.encode_sort_headers,
+            "key": self.encode_key,
+            "algorithm": self.encode_algorithm,
+            "headers": self.encode_headers,
+            "json_encoder": self.encode_json_encoder,
+            "sort_headers": self.encode_sort_headers,
         }
 
     def build_decode_params(self) -> JWTDecodeKwargs:
         return {
-            'key': self.decode_key,
-            'algorithms': self.decode_algorithms,
-            'options': self.decode_options,
-            'verify': self.decode_verify,
-            'detached_payload': self.decode_detached_payload,
-            'audience': self.decode_audience,
-            'subject': self.decode_subject,
-            'issuer': self.decode_issuer,
-            'leeway': self.decode_leeway,
+            "key": self.decode_key,
+            "algorithms": self.decode_algorithms,
+            "options": self.decode_options,
+            "verify": self.decode_verify,
+            "detached_payload": self.decode_detached_payload,
+            "audience": self.decode_audience,
+            "subject": self.decode_subject,
+            "issuer": self.decode_issuer,
+            "leeway": self.decode_leeway,
         }
 
     def build_access_token_params(self) -> SetCookieKwargs:
         return {
-            'key': self.access_token_name,
-            'max_age': int(self.access_token_expires.total_seconds()),
-            'path': self.access_token_path,
-            'domain': self.access_token_domain,
-            'secure': self.access_token_secure,
-            'httponly': self.access_token_httponly,
-            'samesite': self.access_token_samesite,
+            "key": self.access_token_name,
+            "max_age": int(self.access_token_expires.total_seconds()),
+            "path": self.access_token_path,
+            "domain": self.access_token_domain,
+            "secure": self.access_token_secure,
+            "httponly": self.access_token_httponly,
+            "samesite": self.access_token_samesite,
         }
 
     def build_refresh_token_params(self) -> SetCookieKwargs:
         return {
-            'key': self.refresh_token_name,
-            'max_age': int(self.refresh_token_expires.total_seconds()),
-            'path': self.refresh_token_path,
-            'domain': self.refresh_token_domain,
-            'secure': self.refresh_token_secure,
-            'httponly': self.refresh_token_httponly,
-            'samesite': self.refresh_token_samesite,
+            "key": self.refresh_token_name,
+            "max_age": int(self.refresh_token_expires.total_seconds()),
+            "path": self.refresh_token_path,
+            "domain": self.refresh_token_domain,
+            "secure": self.refresh_token_secure,
+            "httponly": self.refresh_token_httponly,
+            "samesite": self.refresh_token_samesite,
         }
 
     def build_unauthorized_http_exception(self) -> HTTPException:

@@ -9,7 +9,7 @@ from quick_jwt import QuickJWTConfig, access_check_depends, QuickJWTMiddleware
 
 
 def test_access_check_depends():
-    key = 'Some1! Key'
+    key = "Some1! Key"
     quick_jwt_config = QuickJWTConfig(
         encode_key=key,
         decode_key=key,
@@ -19,29 +19,29 @@ def test_access_check_depends():
 
     app = FastAPI()
 
-    @app.get('/')
+    @app.get("/")
     async def endpoint(payload: access_check_depends(Payload)):
         return payload  # pragma: no cover
 
     app.add_middleware(QuickJWTMiddleware, quick_jwt_config)
     client = TestClient(app)
-    sub = '73031704-0799-4c4e-8689-3b91d35c2d18'
+    sub = "73031704-0799-4c4e-8689-3b91d35c2d18"
     access = (
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.'
-        'eyJzdWIiOiI3MzAzMTcwNC0wNzk5LTRjNGUtODY4OS0zYjkxZDM1YzJkMTgifQ.'
-        'rs-zlSQ6wuNFQY7Unpt02iM1qNCqOc1uYu42F-VuAz8'
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9."
+        "eyJzdWIiOiI3MzAzMTcwNC0wNzk5LTRjNGUtODY4OS0zYjkxZDM1YzJkMTgifQ."
+        "rs-zlSQ6wuNFQY7Unpt02iM1qNCqOc1uYu42F-VuAz8"
     )
     headers = {
-        'Authorization': f'Bearer {access}'
+        "Authorization": f"Bearer {access}"
     }
-    response = client.get('/', headers=headers)
+    response = client.get("/", headers=headers)
 
     assert response.status_code == status.HTTP_200_OK
-    assert response.json() == {'sub': sub}
+    assert response.json() == {"sub": sub}
 
 
 def test_access_check_depends_invalid_token():
-    key = 'Some1! Key'
+    key = "Some1! Key"
     quick_jwt_config = QuickJWTConfig(
         encode_key=key,
         decode_key=key,
@@ -51,27 +51,27 @@ def test_access_check_depends_invalid_token():
 
     app = FastAPI()
 
-    @app.get('/')
+    @app.get("/")
     async def endpoint(payload: access_check_depends(Payload)):
         return payload  # pragma: no cover
 
     app.add_middleware(QuickJWTMiddleware, quick_jwt_config)
     client = TestClient(app)
     access = (
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.'
-        'eyJzdWIiOiI3MzAzMTcwNC0wNzk5LTRjNGUtODY4OS0zYjkxZDM1YzJkMTgifQ.'
-        'rs-zlSQ6wuNFQY7Unpt02iM1qNCqOc1uYu42F-VuAz8'
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9."
+        "eyJzdWIiOiI3MzAzMTcwNC0wNzk5LTRjNGUtODY4OS0zYjkxZDM1YzJkMTgifQ."
+        "rs-zlSQ6wuNFQY7Unpt02iM1qNCqOc1uYu42F-VuAz8"
     )
     headers = {
-        'Authorization': f'Invalid {access}'
+        "Authorization": f"Invalid {access}"
     }
-    response = client.get('/', headers=headers)
+    response = client.get("/", headers=headers)
 
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
 
 def test_access_check_depends_invalid_bearer():
-    key = 'Some1! Key'
+    key = "Some1! Key"
     quick_jwt_config = QuickJWTConfig(
         encode_key=key,
         decode_key=key,
@@ -81,25 +81,25 @@ def test_access_check_depends_invalid_bearer():
 
     app = FastAPI()
 
-    @app.get('/')
+    @app.get("/")
     async def endpoint(payload: access_check_depends(Payload)):
         return payload  # pragma: no cover
 
     app.add_middleware(QuickJWTMiddleware, quick_jwt_config)
     client = TestClient(app)
     access = (
-        'invalid_token'
+        "invalid_token"
     )
     headers = {
-        'Authorization': f'Bearer {access}'
+        "Authorization": f"Bearer {access}"
     }
-    response = client.get('/', headers=headers)
+    response = client.get("/", headers=headers)
 
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
 
 def test_access_check_depends_cookies():
-    key = 'Some1! Key'
+    key = "Some1! Key"
     quick_jwt_config = QuickJWTConfig(
         encode_key=key,
         decode_key=key,
@@ -109,30 +109,30 @@ def test_access_check_depends_cookies():
 
     app = FastAPI()
 
-    @app.get('/')
+    @app.get("/")
     async def endpoint(payload: access_check_depends(Payload)):
         return payload  # pragma: no cover
 
     app.add_middleware(QuickJWTMiddleware, quick_jwt_config)
     access = (
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.'
-        'eyJzdWIiOiI3MzAzMTcwNC0wNzk5LTRjNGUtODY4OS0zYjkxZDM1YzJkMTgifQ.'
-        'rs-zlSQ6wuNFQY7Unpt02iM1qNCqOc1uYu42F-VuAz8'
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9."
+        "eyJzdWIiOiI3MzAzMTcwNC0wNzk5LTRjNGUtODY4OS0zYjkxZDM1YzJkMTgifQ."
+        "rs-zlSQ6wuNFQY7Unpt02iM1qNCqOc1uYu42F-VuAz8"
     )
     cookies = [
-        ('access', access)
+        ("access", access)
     ]
     client = TestClient(app, cookies=cookies)
-    sub = '73031704-0799-4c4e-8689-3b91d35c2d18'
+    sub = "73031704-0799-4c4e-8689-3b91d35c2d18"
 
-    response = client.get('/')
+    response = client.get("/")
 
     assert response.status_code == status.HTTP_200_OK
-    assert response.json() == {'sub': sub}
+    assert response.json() == {"sub": sub}
 
 
 def test_access_check_depends_invalid_token_cookies():
-    key = 'Some1! Key'
+    key = "Some1! Key"
     quick_jwt_config = QuickJWTConfig(
         encode_key=key,
         decode_key=key,
@@ -142,26 +142,26 @@ def test_access_check_depends_invalid_token_cookies():
 
     app = FastAPI()
 
-    @app.get('/')
+    @app.get("/")
     async def endpoint(payload: access_check_depends(Payload)):
         return payload  # pragma: no cover
 
     app.add_middleware(QuickJWTMiddleware, quick_jwt_config)
     access = (
-        'invalid_token'
+        "invalid_token"
     )
     cookies = [
-        ('access', access)
+        ("access", access)
     ]
     client = TestClient(app, cookies=cookies)
 
-    response = client.get('/')
+    response = client.get("/")
 
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
 
 def test_access_check_depends__validate_driver():
-    key = 'Some1! Key'
+    key = "Some1! Key"
     quick_jwt_config = QuickJWTConfig(
         encode_key=key,
         decode_key=key,
@@ -172,22 +172,21 @@ def test_access_check_depends__validate_driver():
 
     app = FastAPI()
 
-    @app.get('/')
+    @app.get("/")
     async def endpoint(payload: access_check_depends(Payload)):
         return payload  # pragma: no cover
 
     app.add_middleware(QuickJWTMiddleware, quick_jwt_config)
     client = TestClient(app)
-    sub = '73031704-0799-4c4e-8689-3b91d35c2d18'
     access = (
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.'
-        'eyJzdWIiOiI3MzAzMTcwNC0wNzk5LTRjNGUtODY4OS0zYjkxZDM1YzJkMTgifQ.'
-        'rs-zlSQ6wuNFQY7Unpt02iM1qNCqOc1uYu42F-VuAz8'
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9."
+        "eyJzdWIiOiI3MzAzMTcwNC0wNzk5LTRjNGUtODY4OS0zYjkxZDM1YzJkMTgifQ."
+        "rs-zlSQ6wuNFQY7Unpt02iM1qNCqOc1uYu42F-VuAz8"
     )
     headers = {
-        'Authorization': f'Bearer {access}'
+        "Authorization": f"Bearer {access}"
     }
 
 
-    with pytest.raises(Exception) as e:
-        client.get('/', headers=headers)
+    with pytest.raises(Exception):
+        client.get("/", headers=headers)

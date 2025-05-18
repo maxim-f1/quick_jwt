@@ -22,8 +22,8 @@ class CreateJWT(PyJWTEncodeDriverJWT):
 
 class AccessTokenCheck(PyJWTDecodeDriverJWT):
     __slots__ = (
-        '_payload_model',
-        '_model_validate_kwargs',
+        "_payload_model",
+        "_model_validate_kwargs",
     )
 
     def __init__(
@@ -43,7 +43,9 @@ class AccessTokenCheck(PyJWTDecodeDriverJWT):
             bearer_token: access_bearer_security,
     ) -> BaseModel:
         self._setup_call_function_params(request, response)
-        cookie_token = request.cookies.get(self._config.access_token_name)
+        config = self._get_config()
+
+        cookie_token = request.cookies.get(config.access_token_name)
         raw_payload = self._get_payload(bearer_token, cookie_token)
 
         return self._payload_model.model_validate(
@@ -54,15 +56,15 @@ class AccessTokenCheck(PyJWTDecodeDriverJWT):
 
 class RefreshTokenCheck(PyJWTDecodeDriverJWT):
     __slots__ = (
-        '_payload_model',
-        '_model_validate_kwargs',
+        "_payload_model",
+        "_model_validate_kwargs",
     )
 
     def __init__(
             self,
             payload_model: Type[BaseModel],
             **model_validate_kwargs: Unpack[ModelValidateKwargs],
-    ):
+    ) -> None:
         self._payload_model = payload_model
         self._model_validate_kwargs = model_validate_kwargs
 
@@ -75,7 +77,9 @@ class RefreshTokenCheck(PyJWTDecodeDriverJWT):
             bearer_token: refresh_bearer_security,
     ) -> BaseModel:
         self._setup_call_function_params(request, response)
-        cookie_token = request.cookies.get(self._config.refresh_token_name)
+        config = self._get_config()
+
+        cookie_token = request.cookies.get(config.refresh_token_name)
         raw_payload = self._get_payload(bearer_token, cookie_token)
 
         return self._payload_model.model_validate(
@@ -86,7 +90,7 @@ class RefreshTokenCheck(PyJWTDecodeDriverJWT):
 
 class RefreshJWT(PyJWTEncodeDriverJWT, PyJWTDecodeDriverJWT):
     __slots__ = (
-        'payload',
+        "payload",
     )
 
     def __init__(
@@ -94,7 +98,7 @@ class RefreshJWT(PyJWTEncodeDriverJWT, PyJWTDecodeDriverJWT):
             access_payload: Type[BaseModel],
             refresh_payload: Type[BaseModel],
             **model_validate_kwargs: Unpack[ModelValidateKwargs],
-    ):
+    ) -> None:
         super().__init__(access_payload, refresh_payload, **model_validate_kwargs)
 
         self.payload: BaseModel | None = None
@@ -104,9 +108,11 @@ class RefreshJWT(PyJWTEncodeDriverJWT, PyJWTDecodeDriverJWT):
             request: Request,
             response: Response,
             bearer_token: refresh_bearer_security,
-    ):
+    ) -> Self:
         self._setup_call_function_params(request, response)
-        cookie_token = request.cookies.get(self._config.refresh_token_name)
+        config = self._get_config()
+
+        cookie_token = request.cookies.get(config.refresh_token_name)
         self.payload = self._get_payload(bearer_token, cookie_token)
 
         return self
@@ -118,27 +124,29 @@ class LogoutJWT(BaseJWT):
             request: Request,
             response: Response,
             bearer_token: access_bearer_security,
-    ):
+    ) -> None:
         self._setup_call_function_params(request, response)
+        config = self._get_config()
+
         response.delete_cookie(
-            self._config.access_token_name
+            config.access_token_name
         )
         response.delete_cookie(
-            self._config.refresh_token_name
+            config.refresh_token_name
         )
 
 
 class AccessTokenOptionalCheck(PyJWTDecodeDriverJWT):
     __slots__ = (
-        '_payload_model',
-        '_model_validate_kwargs',
+        "_payload_model",
+        "_model_validate_kwargs",
     )
 
     def __init__(
             self,
             payload_model: Type[BaseModel],
             **model_validate_kwargs: Unpack[ModelValidateKwargs],
-    ):
+    ) -> None:
         self._payload_model = payload_model
         self._model_validate_kwargs = model_validate_kwargs
 
@@ -151,7 +159,9 @@ class AccessTokenOptionalCheck(PyJWTDecodeDriverJWT):
             bearer_token: access_bearer_security,
     ) -> BaseModel | None:
         self._setup_call_function_params(request, response)
-        cookie_token = request.cookies.get(self._config.access_token_name)
+        config = self._get_config()
+
+        cookie_token = request.cookies.get(config.access_token_name)
         raw_payload = self._get_payload_optional(bearer_token, cookie_token)
         if raw_payload is None:
             return None
@@ -164,15 +174,15 @@ class AccessTokenOptionalCheck(PyJWTDecodeDriverJWT):
 
 class RefreshTokenOptionalCheck(PyJWTDecodeDriverJWT):
     __slots__ = (
-        '_payload_model',
-        '_model_validate_kwargs',
+        "_payload_model",
+        "_model_validate_kwargs",
     )
 
     def __init__(
             self,
             payload_model: Type[BaseModel],
             **model_validate_kwargs: Unpack[ModelValidateKwargs],
-    ):
+    ) -> None:
         self._payload_model = payload_model
         self._model_validate_kwargs = model_validate_kwargs
 
@@ -185,7 +195,9 @@ class RefreshTokenOptionalCheck(PyJWTDecodeDriverJWT):
             bearer_token: refresh_bearer_security,
     ) -> BaseModel | None:
         self._setup_call_function_params(request, response)
-        cookie_token = request.cookies.get(self._config.refresh_token_name)
+        config = self._get_config()
+
+        cookie_token = request.cookies.get(config.refresh_token_name)
         raw_payload = self._get_payload_optional(bearer_token, cookie_token)
         if raw_payload is None:
             return None

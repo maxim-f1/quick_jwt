@@ -28,7 +28,8 @@ def create_jwt_depends[
         refresh_payload,
         **_model_validate_kwargs
     )
-    return Annotated[Type[CreateJWT], Depends(depends)]
+    return Annotated[CreateJWT, Depends(depends)]  # type: ignore
+
 
 
 def access_check_depends[
@@ -41,7 +42,7 @@ def access_check_depends[
         payload_model,
         **_model_validate_kwargs
     )
-    return Annotated[PayloadModelType, Depends(depends)]
+    return Annotated[PayloadModelType, Depends(depends)]  # type: ignore
 
 
 def refresh_check_depends[
@@ -54,7 +55,7 @@ def refresh_check_depends[
         payload_model,
         **_model_validate_kwargs
     )
-    return Annotated[PayloadModelType, Depends(depends)]
+    return Annotated[PayloadModelType, Depends(depends)]  # type: ignore
 
 
 def refresh_jwt_depends[
@@ -70,12 +71,12 @@ def refresh_jwt_depends[
         refresh_token_payload,
         **response_model_validate_kwargs
     )
-    return Annotated[Type[RefreshJWT], Depends(depends)]
+    return Annotated[Type[RefreshJWT], Depends(depends)]  # type: ignore
 
 
 def logout_depends() -> None:
     depends = LogoutJWT()
-    return Annotated[None, Depends(depends)]
+    return Annotated[None, Depends(depends)]  # type: ignore
 
 
 def access_check_optional_depends[
@@ -88,7 +89,7 @@ def access_check_optional_depends[
         payload_model,
         **_model_validate_kwargs
     )
-    return Annotated[PayloadModelType | None, Depends(depends)]
+    return Annotated[PayloadModelType | None, Depends(depends)]  # type: ignore
 
 
 def refresh_check_optional_depends[
@@ -101,5 +102,5 @@ def refresh_check_optional_depends[
         payload_model,
         **_model_validate_kwargs
     )
-    return Annotated[PayloadModelType | None, Depends(depends)]
+    return Annotated[PayloadModelType | None, Depends(depends)]  # type: ignore
 
