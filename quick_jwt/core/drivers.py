@@ -10,11 +10,10 @@ from quick_jwt.dto import JWTTokensDTO
 
 
 class PyJWTDecodeDriverJWT(IDecodeDriverJWT, BaseJWT):
-
     def _get_payload(
-            self,
-            bearer_token: HTTPAuthorizationCredentials | None,
-            cookie_token: str | None
+        self,
+        bearer_token: HTTPAuthorizationCredentials | None,
+        cookie_token: str | None,
     ) -> Any:
         self._validate_driver()
         config = self._get_config()
@@ -35,9 +34,9 @@ class PyJWTDecodeDriverJWT(IDecodeDriverJWT, BaseJWT):
         return payload
 
     def _get_payload_optional(
-            self,
-            bearer_token: HTTPAuthorizationCredentials | None,
-            cookie_token: str | None,
+        self,
+        bearer_token: HTTPAuthorizationCredentials | None,
+        cookie_token: str | None,
     ) -> Any | None:
         self._validate_driver()
         config = self._get_config()
@@ -60,7 +59,7 @@ class PyJWTDecodeDriverJWT(IDecodeDriverJWT, BaseJWT):
     def _validate_driver(self) -> None:
         config = self._get_config()
 
-        if hasattr(config.driver, "decode") is False or hasattr(config.driver, "encode") is False:
+        if hasattr(config.driver, 'decode') is False or hasattr(config.driver, 'encode') is False:
             raise Exception(
                 """
                 QuickJWTConfig.driver received invalid driver. 
@@ -71,12 +70,11 @@ class PyJWTDecodeDriverJWT(IDecodeDriverJWT, BaseJWT):
 
 
 class PyJWTEncodeDriverJWT(IEncodeDriverJWT, BaseJWT):
-
     def __init__(
-            self,
-            access_payload: Type[BaseModel],
-            refresh_payload: Type[BaseModel],
-            **model_validate_kwargs: Unpack[ModelValidateKwargs],
+        self,
+        access_payload: Type[BaseModel],
+        refresh_payload: Type[BaseModel],
+        **model_validate_kwargs: Unpack[ModelValidateKwargs],
     ):
         self._access_payload = access_payload
         self._refresh_payload = refresh_payload
@@ -85,9 +83,9 @@ class PyJWTEncodeDriverJWT(IEncodeDriverJWT, BaseJWT):
         super().__init__()
 
     async def create_jwt_tokens(
-            self,
-            access_payload: BaseModel,
-            refresh_payload: BaseModel,
+        self,
+        access_payload: BaseModel,
+        refresh_payload: BaseModel,
     ) -> JWTTokensDTO:
         access_token = await self.create_access_token(access_payload)
         refresh_token = await self.create_refresh_token(refresh_payload)
@@ -102,14 +100,8 @@ class PyJWTEncodeDriverJWT(IEncodeDriverJWT, BaseJWT):
         config = self._get_config()
         response = self._get_response()
 
-        access_payload = self._access_payload.model_validate(
-            access_payload,
-            **self._model_validate_kwargs
-        )
-        access_token = config.driver.encode(
-            access_payload.model_dump(mode="json"),
-            **config.build_encode_params()
-        )
+        access_payload = self._access_payload.model_validate(access_payload, **self._model_validate_kwargs)
+        access_token = config.driver.encode(access_payload.model_dump(mode='json'), **config.build_encode_params())
         response.set_cookie(value=access_token, **config.build_access_token_params())
         return access_token
 
@@ -118,21 +110,15 @@ class PyJWTEncodeDriverJWT(IEncodeDriverJWT, BaseJWT):
         config = self._get_config()
         response = self._get_response()
 
-        refresh_payload = self._refresh_payload.model_validate(
-            refresh_payload,
-            **self._model_validate_kwargs
-        )
-        refresh_token = config.driver.encode(
-            refresh_payload.model_dump(mode="json"),
-            **config.build_encode_params()
-        )
+        refresh_payload = self._refresh_payload.model_validate(refresh_payload, **self._model_validate_kwargs)
+        refresh_token = config.driver.encode(refresh_payload.model_dump(mode='json'), **config.build_encode_params())
         response.set_cookie(value=refresh_token, **config.build_refresh_token_params())
         return refresh_token
 
     def _validate_driver(self) -> None:
         config = self._get_config()
 
-        if hasattr(config.driver, "decode") is False or hasattr(config.driver, "encode") is False:
+        if hasattr(config.driver, 'decode') is False or hasattr(config.driver, 'encode') is False:
             raise Exception(
                 """
                 QuickJWTConfig.driver received invalid driver. 
