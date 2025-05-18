@@ -1,4 +1,4 @@
-name: Run Tests
+name: tests
 run-name: Started Tests by @${{ github.actor }}
 
 on:
