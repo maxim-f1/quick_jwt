@@ -1,5 +1,4 @@
 name: publish to pypi
-run-name: Release - ${{ env.PACKAGE_VERSION }}
 
 on:
   push:
