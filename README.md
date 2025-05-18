@@ -5,7 +5,8 @@
 
 <p align="center">
 <img alt="Run Tests" src="https://github.com/maxim-f1/quick_jwt/actions/workflows/tests.yml/badge.svg">
-<img alt="Coverage" src="./coverage.svg">
+
+<img alt="Coverage" src="https://github.com/maxim-f1/quick_jwt/blob/master/coverage.svg?raw=true">
 
 <a href="https://pypi.org/project/fastapi" target="_blank">
     <img src="https://img.shields.io/pypi/v/quick-jwt?color=%234c1&label=pypi%20package" alt="Package version">
