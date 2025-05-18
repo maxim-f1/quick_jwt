@@ -17,10 +17,11 @@ class IDecodeDriverJWT(metaclass=abc.ABCMeta):
     providing methods to extract payloads from both bearer tokens and cookies.
     """
 
+    @abc.abstractmethod
     def _get_payload(
-            self,
-            bearer_token: HTTPAuthorizationCredentials | None,
-            cookie_token: str | None
+        self,
+        bearer_token: HTTPAuthorizationCredentials | None,
+        cookie_token: str | None,
     ) -> Any:
         """Extract and verify the JWT payload from either bearer token or cookie.
 
@@ -37,10 +38,11 @@ class IDecodeDriverJWT(metaclass=abc.ABCMeta):
         """
         pass  # pragma: no cover
 
+    @abc.abstractmethod
     def _get_payload_optional(
-            self,
-            bearer_token: HTTPAuthorizationCredentials | None,
-            cookie_token: str | None,
+        self,
+        bearer_token: HTTPAuthorizationCredentials | None,
+        cookie_token: str | None,
     ) -> Any | None:
         """Attempt to extract JWT payload without raising exceptions on failure.
 
@@ -66,11 +68,8 @@ class IEncodeDriverJWT(metaclass=abc.ABCMeta):
     providing methods to create both access and refresh tokens either together or separately.
     """
 
-    async def create_jwt_tokens(
-            self,
-            access_payload: BaseModel,
-            refresh_payload: BaseModel
-    ) -> JWTTokensDTO:
+    @abc.abstractmethod
+    async def create_jwt_tokens(self, access_payload: BaseModel, refresh_payload: BaseModel) -> JWTTokensDTO:
         """Create both access and refresh tokens asynchronously.
 
         Args:
@@ -89,6 +88,7 @@ class IEncodeDriverJWT(metaclass=abc.ABCMeta):
         """
         pass  # pragma: no cover
 
+    @abc.abstractmethod
     async def create_access_token(self, access_payload: BaseModel) -> str:
         """Create only an access token asynchronously.
 
@@ -105,6 +105,7 @@ class IEncodeDriverJWT(metaclass=abc.ABCMeta):
         """
         pass  # pragma: no cover
 
+    @abc.abstractmethod
     async def create_refresh_token(self, refresh_payload: BaseModel) -> str:
         """Create only a refresh token asynchronously.
 
@@ -130,12 +131,12 @@ class BaseJWT(metaclass=abc.ABCMeta):
         '_response',
     )
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._config: QuickJWTConfig | None = None
         self._request: Request | None = None
         self._response: Response | None = None
 
-    def _setup_call_function_params(self, request: Request, response: Response):
+    def _setup_call_function_params(self, request: Request, response: Response) -> None:
         self._request = request
         self._response = response
         self._config = self._get_config_from_request()
@@ -144,7 +145,8 @@ class BaseJWT(metaclass=abc.ABCMeta):
         if self._request is None:
             raise AttributeError('_reqeust field not found')
         try:
-            return self._request.state.quick_jwt_config
+            config: QuickJWTConfig = self._request.state.quick_jwt_config
+            return config
         except AttributeError:
             raise Exception(
                 """
@@ -158,6 +160,17 @@ class BaseJWT(metaclass=abc.ABCMeta):
                 """
             )
 
-    def _validate_call_function_is_called(self):
-        if self._config is None or self._request is None or self._response is None:
+    def _get_config(self) -> QuickJWTConfig:
+        if self._config is None:
             raise Exception('The __call__ function was not called.')
+        return self._config
+
+    def _get_request(self) -> Request:
+        if self._request is None:
+            raise Exception('The __call__ function was not called.')
+        return self._request
+
+    def _get_response(self) -> Response:
+        if self._response is None:
+            raise Exception('The __call__ function was not called.')
+        return self._response

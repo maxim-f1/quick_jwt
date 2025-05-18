@@ -17,6 +17,7 @@ def test_create_jwt_depends_create_access_token():
         encode_key=key,
         decode_key=key,
     )
+
     class Payload(BaseModel):
         sub: UUID
 
@@ -46,6 +47,7 @@ def test_create_jwt_depends_create_refresh_token():
         encode_key=key,
         decode_key=key,
     )
+
     class Payload(BaseModel):
         sub: UUID
         jti: UUID
@@ -61,7 +63,7 @@ def test_create_jwt_depends_create_refresh_token():
     sub = 'bb025fa9-73b8-470a-abfc-e337cbcc2d5f'
     jti = '75446dc0-f07a-4614-8e2a-6ba90857d8b3'
     response = client.get('/', params=QueryParams(sub=sub, jti=jti))
-    refresh =(
+    refresh = (
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.'
         'eyJzdWIiOiJiYjAyNWZhOS03M2I4LTQ3MGEtYWJmYy1lMzM3Y'
         '2JjYzJkNWYiLCJqdGkiOiI3NTQ0NmRjMC1mMDdhLTQ2MTQtOGUyYS02YmE5MDg1N2Q4YjMifQ.'
@@ -78,6 +80,7 @@ def test_create_jwt_depends_create_jwt_tokens():
         encode_key=key,
         decode_key=key,
     )
+
     class Payload(BaseModel):
         sub: UUID
 
@@ -103,10 +106,7 @@ def test_create_jwt_depends_create_jwt_tokens():
         '2HDe99YW4j78VtffiIXEUvSwvaU6s-5Moa3e5ZPBSzM'
     )
     assert response.status_code == status.HTTP_200_OK
-    assert response.json() == {
-        'access': access,
-        'refresh': refresh
-    }
+    assert response.json() == {'access': access, 'refresh': refresh}
     assert response.cookies.get('access') == access
     assert response.cookies.get('refresh') == refresh
 
@@ -117,6 +117,7 @@ def test_create_jwt_depends_create_access_token_invalid_scheme():
         encode_key=key,
         decode_key=key,
     )
+
     class Payload(BaseModel):
         sub: UUID
 
@@ -147,6 +148,7 @@ def test_create_jwt_depends_create_refresh_token_invalid_scheme():
         encode_key=key,
         decode_key=key,
     )
+
     class Payload(BaseModel):
         sub: UUID
 
@@ -179,6 +181,7 @@ def test_create_jwt_depends_with_custom_expiration():
         access_token_expires=timedelta(seconds=10),
         refresh_token_expires=timedelta(seconds=30),
     )
+
     class Payload(BaseModel):
         sub: UUID
 
@@ -220,10 +223,10 @@ def test_create_jwt_depends_with_different_payload_types():
 
     @app.get('/')
     async def endpoint(
-            sub: UUID,
-            name: str,
-            jti: UUID,
-            create_jwt: create_jwt_depends(AccessPayload, RefreshPayload)
+        sub: UUID,
+        name: str,
+        jti: UUID,
+        create_jwt: create_jwt_depends(AccessPayload, RefreshPayload),
     ):
         access_payload = AccessPayload(sub=sub, name=name)
         refresh_payload = RefreshPayload(sub=sub, jti=jti)
@@ -249,6 +252,7 @@ def test_create_jwt_depends_with_additional_claims():
         encode_key=key,
         decode_key=key,
     )
+
     class Payload(BaseModel):
         sub: UUID
         role: str
@@ -273,11 +277,8 @@ def test_create_jwt_depends_with_additional_claims():
 
 def test_create_jwt_depends_create_access_token_access_expired():
     key = ''
-    quick_jwt_config = QuickJWTConfig(
-        encode_key=key,
-        decode_key=key,
-        access_token_expires=timedelta(seconds=1)
-    )
+    quick_jwt_config = QuickJWTConfig(encode_key=key, decode_key=key, access_token_expires=timedelta(seconds=1))
+
     class Payload(BaseModel):
         sub: UUID
 

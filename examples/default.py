@@ -35,7 +35,9 @@ async def create_jwt_depends_endpoint(sub: str, create_jwt: create_jwt_depends(U
 
 
 @app.get('/access_check_depends')
-async def access_check_depends_endpoint(user: access_check_depends(UserScheme)):
+async def access_check_depends_endpoint(
+    user: access_check_depends(UserScheme),
+) -> UserScheme:
     return user
 
 
@@ -46,28 +48,29 @@ async def refresh_check_depends_endpoint(user: refresh_check_depends(UserScheme)
 
 @app.get('/access_check_depends_and_refresh_check_depends')
 async def access_check_depends_and_refresh_check_depends_endpoint(
-        access: access_check_depends(UserScheme),
-        refresh: refresh_check_depends(UserScheme)
+    access: access_check_depends(UserScheme), refresh: refresh_check_depends(UserScheme)
 ):
     return access, refresh
 
 
 @app.get('/access_check_optional_depends')
 async def access_check_optional_depends_endpoint(
-        user: access_check_optional_depends(UserScheme)
+    user: access_check_optional_depends(UserScheme),
 ):
     return user
 
 
 @app.get('/refresh_check_optional_depends')
 async def refresh_check_optional_depends_endpoint(
-        user: refresh_check_optional_depends(UserScheme)
+    user: refresh_check_optional_depends(UserScheme),
 ):
     return user
 
 
 @app.get('/refresh_jwt_depends')
-async def refresh_jwt_depends_endpoint(refresh_jwt: refresh_jwt_depends(UserScheme, UserScheme)):
+async def refresh_jwt_depends_endpoint(
+    refresh_jwt: refresh_jwt_depends(UserScheme, UserScheme),
+):
     access_token = await refresh_jwt.create_access_token(refresh_jwt.payload)
     refresh_token = await refresh_jwt.create_refresh_token(refresh_jwt.payload)
     return {'access': access_token, 'refresh': refresh_token}

@@ -14,6 +14,7 @@ def test_access_check_depends():
         encode_key=key,
         decode_key=key,
     )
+
     class Payload(BaseModel):
         sub: UUID
 
@@ -31,9 +32,7 @@ def test_access_check_depends():
         'eyJzdWIiOiI3MzAzMTcwNC0wNzk5LTRjNGUtODY4OS0zYjkxZDM1YzJkMTgifQ.'
         'rs-zlSQ6wuNFQY7Unpt02iM1qNCqOc1uYu42F-VuAz8'
     )
-    headers = {
-        'Authorization': f'Bearer {access}'
-    }
+    headers = {'Authorization': f'Bearer {access}'}
     response = client.get('/', headers=headers)
 
     assert response.status_code == status.HTTP_200_OK
@@ -46,6 +45,7 @@ def test_access_check_depends_invalid_token():
         encode_key=key,
         decode_key=key,
     )
+
     class Payload(BaseModel):
         sub: UUID
 
@@ -62,9 +62,7 @@ def test_access_check_depends_invalid_token():
         'eyJzdWIiOiI3MzAzMTcwNC0wNzk5LTRjNGUtODY4OS0zYjkxZDM1YzJkMTgifQ.'
         'rs-zlSQ6wuNFQY7Unpt02iM1qNCqOc1uYu42F-VuAz8'
     )
-    headers = {
-        'Authorization': f'Invalid {access}'
-    }
+    headers = {'Authorization': f'Invalid {access}'}
     response = client.get('/', headers=headers)
 
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
@@ -76,6 +74,7 @@ def test_access_check_depends_invalid_bearer():
         encode_key=key,
         decode_key=key,
     )
+
     class Payload(BaseModel):
         sub: UUID
 
@@ -87,12 +86,8 @@ def test_access_check_depends_invalid_bearer():
 
     app.add_middleware(QuickJWTMiddleware, quick_jwt_config)
     client = TestClient(app)
-    access = (
-        'invalid_token'
-    )
-    headers = {
-        'Authorization': f'Bearer {access}'
-    }
+    access = 'invalid_token'
+    headers = {'Authorization': f'Bearer {access}'}
     response = client.get('/', headers=headers)
 
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
@@ -104,6 +99,7 @@ def test_access_check_depends_cookies():
         encode_key=key,
         decode_key=key,
     )
+
     class Payload(BaseModel):
         sub: UUID
 
@@ -119,9 +115,7 @@ def test_access_check_depends_cookies():
         'eyJzdWIiOiI3MzAzMTcwNC0wNzk5LTRjNGUtODY4OS0zYjkxZDM1YzJkMTgifQ.'
         'rs-zlSQ6wuNFQY7Unpt02iM1qNCqOc1uYu42F-VuAz8'
     )
-    cookies = [
-        ('access', access)
-    ]
+    cookies = [('access', access)]
     client = TestClient(app, cookies=cookies)
     sub = '73031704-0799-4c4e-8689-3b91d35c2d18'
 
@@ -137,6 +131,7 @@ def test_access_check_depends_invalid_token_cookies():
         encode_key=key,
         decode_key=key,
     )
+
     class Payload(BaseModel):
         sub: UUID
 
@@ -147,12 +142,8 @@ def test_access_check_depends_invalid_token_cookies():
         return payload  # pragma: no cover
 
     app.add_middleware(QuickJWTMiddleware, quick_jwt_config)
-    access = (
-        'invalid_token'
-    )
-    cookies = [
-        ('access', access)
-    ]
+    access = 'invalid_token'
+    cookies = [('access', access)]
     client = TestClient(app, cookies=cookies)
 
     response = client.get('/')
@@ -162,11 +153,8 @@ def test_access_check_depends_invalid_token_cookies():
 
 def test_access_check_depends__validate_driver():
     key = 'Some1! Key'
-    quick_jwt_config = QuickJWTConfig(
-        encode_key=key,
-        decode_key=key,
-        driver=None
-    )
+    quick_jwt_config = QuickJWTConfig(encode_key=key, decode_key=key, driver=None)
+
     class Payload(BaseModel):
         sub: UUID
 
@@ -178,16 +166,12 @@ def test_access_check_depends__validate_driver():
 
     app.add_middleware(QuickJWTMiddleware, quick_jwt_config)
     client = TestClient(app)
-    sub = '73031704-0799-4c4e-8689-3b91d35c2d18'
     access = (
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.'
         'eyJzdWIiOiI3MzAzMTcwNC0wNzk5LTRjNGUtODY4OS0zYjkxZDM1YzJkMTgifQ.'
         'rs-zlSQ6wuNFQY7Unpt02iM1qNCqOc1uYu42F-VuAz8'
     )
-    headers = {
-        'Authorization': f'Bearer {access}'
-    }
+    headers = {'Authorization': f'Bearer {access}'}
 
-
-    with pytest.raises(Exception) as e:
+    with pytest.raises(Exception):
         client.get('/', headers=headers)

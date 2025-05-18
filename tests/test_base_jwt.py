@@ -16,8 +16,9 @@ class Children(BaseJWT):
         self._request = request
         self._response = response
         self._config = config
-        self._validate_call_function_is_called()
-
+        self._get_config()
+        self._get_request()
+        self._get_response()
 
 
 def test_base_jwt_reqeust_not_found():
@@ -28,7 +29,7 @@ def test_base_jwt_reqeust_not_found():
 
 
 def test_base_jwt_config_not_found():
-    with pytest.raises(Exception) as e:
+    with pytest.raises(Exception):
         Children().config_not_found()
 
 

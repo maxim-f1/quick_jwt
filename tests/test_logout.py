@@ -24,9 +24,7 @@ def test_logout_depends_cookies():
         'eyJzdWIiOiI3MzAzMTcwNC0wNzk5LTRjNGUtODY4OS0zYjkxZDM1YzJkMTgifQ.'
         'rs-zlSQ6wuNFQY7Unpt02iM1qNCqOc1uYu42F-VuAz8'
     )
-    cookies = [
-        ('access', access)
-    ]
+    cookies = [('access', access)]
     client = TestClient(app, cookies=cookies)
 
     response = client.get('/')
@@ -50,12 +48,8 @@ def test_logout_depends_cookies_invalid():
         return payload  # pragma: no cover
 
     app.add_middleware(QuickJWTMiddleware, quick_jwt_config)
-    access = (
-        'Invalid'
-    )
-    cookies = [
-        ('access', access)
-    ]
+    access = 'Invalid'
+    cookies = [('access', access)]
     client = TestClient(app, cookies=cookies)
 
     response = client.get('/')

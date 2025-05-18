@@ -16,6 +16,7 @@ def test_refresh_jwt_depends_create_access_token():
         encode_key=key,
         decode_key=key,
     )
+
     class Payload(BaseModel):
         sub: UUID
 
@@ -33,9 +34,7 @@ def test_refresh_jwt_depends_create_access_token():
         'eyJzdWIiOiI3MzAzMTcwNC0wNzk5LTRjNGUtODY4OS0zYjkxZDM1YzJkMTgifQ.'
         'rs-zlSQ6wuNFQY7Unpt02iM1qNCqOc1uYu42F-VuAz8'
     )
-    headers = {
-        'Authorization': f'Bearer {refresh}'
-    }
+    headers = {'Authorization': f'Bearer {refresh}'}
     response = client.get('/', params=QueryParams(sub=sub), headers=headers)
     assert response.status_code == status.HTTP_200_OK
     assert response.json() == refresh
@@ -48,6 +47,7 @@ def test_refresh_jwt_depends_create_refresh_token():
         encode_key=key,
         decode_key=key,
     )
+
     class Payload(BaseModel):
         sub: UUID
         jti: UUID
@@ -69,9 +69,7 @@ def test_refresh_jwt_depends_create_refresh_token():
         '2JjYzJkNWYiLCJqdGkiOiI3NTQ0NmRjMC1mMDdhLTQ2MTQtOGUyYS02YmE5MDg1N2Q4YjMifQ.'
         'ZKW8_9GAIzxNYB_jF26486ez0ZueuASCO6-oIOF8CE0'
     )
-    headers = {
-        'Authorization': f'Bearer {refresh}'
-    }
+    headers = {'Authorization': f'Bearer {refresh}'}
 
     response = client.get('/', params=QueryParams(sub=sub, jti=jti), headers=headers)
     assert response.status_code == status.HTTP_200_OK
@@ -85,6 +83,7 @@ def test_refresh_jwt_depends_create_access_token_cookies():
         encode_key=key,
         decode_key=key,
     )
+
     class Payload(BaseModel):
         sub: UUID
 
@@ -100,9 +99,7 @@ def test_refresh_jwt_depends_create_access_token_cookies():
         'eyJzdWIiOiI3MzAzMTcwNC0wNzk5LTRjNGUtODY4OS0zYjkxZDM1YzJkMTgifQ.'
         'rs-zlSQ6wuNFQY7Unpt02iM1qNCqOc1uYu42F-VuAz8'
     )
-    cookies = {
-        'refresh': refresh
-    }
+    cookies = {'refresh': refresh}
     client = TestClient(app, cookies=cookies)
     sub = '73031704-0799-4c4e-8689-3b91d35c2d18'
     response = client.get('/', params=QueryParams(sub=sub))
@@ -117,6 +114,7 @@ def test_refresh_jwt_depends_create_refresh_token_cookies():
         encode_key=key,
         decode_key=key,
     )
+
     class Payload(BaseModel):
         sub: UUID
         jti: UUID
@@ -134,9 +132,7 @@ def test_refresh_jwt_depends_create_refresh_token_cookies():
         '2JjYzJkNWYiLCJqdGkiOiI3NTQ0NmRjMC1mMDdhLTQ2MTQtOGUyYS02YmE5MDg1N2Q4YjMifQ.'
         'ZKW8_9GAIzxNYB_jF26486ez0ZueuASCO6-oIOF8CE0'
     )
-    cookies = {
-        'refresh': refresh
-    }
+    cookies = {'refresh': refresh}
     client = TestClient(app, cookies=cookies)
     sub = 'bb025fa9-73b8-470a-abfc-e337cbcc2d5f'
     jti = '75446dc0-f07a-4614-8e2a-6ba90857d8b3'
@@ -149,16 +145,14 @@ def test_refresh_jwt_depends_create_refresh_token_cookies():
 
 def test_access_check_depends__validate_driver():
     key = 'Some1! Key'
-    quick_jwt_config = QuickJWTConfig(
-        encode_key=key,
-        decode_key=key,
-        driver=None
-    )
+    quick_jwt_config = QuickJWTConfig(encode_key=key, decode_key=key, driver=None)
+
     class Payload(BaseModel):
         sub: UUID
 
     app = FastAPI()
     sub = 'bb025fa9-73b8-470a-abfc-e337cbcc2d5f'
+
     @app.get('/')
     async def endpoint(refresh_jwt: refresh_jwt_depends(Payload, Payload)):
         payload = Payload(  # pragma: no cover
@@ -173,10 +167,7 @@ def test_access_check_depends__validate_driver():
         'eyJzdWIiOiI3MzAzMTcwNC0wNzk5LTRjNGUtODY4OS0zYjkxZDM1YzJkMTgifQ.'
         'rs-zlSQ6wuNFQY7Unpt02iM1qNCqOc1uYu42F-VuAz8'
     )
-    headers = {
-        'Authorization': f'Bearer {refresh}'
-    }
+    headers = {'Authorization': f'Bearer {refresh}'}
 
-
-    with pytest.raises(Exception) as e:
+    with pytest.raises(Exception):
         client.get('/', headers=headers)

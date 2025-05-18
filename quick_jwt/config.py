@@ -9,7 +9,11 @@ from jwt import PyJWT
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-from quick_jwt.core._function_args import JWTDecodeKwargs, JWTEncodeKwargs, SetCookieKwargs
+from quick_jwt.core._function_args import (
+    JWTDecodeKwargs,
+    JWTEncodeKwargs,
+    SetCookieKwargs,
+)
 
 
 class QuickJWTConfig(BaseSettings):
@@ -64,7 +68,7 @@ class QuickJWTConfig(BaseSettings):
     access_token_domain: str | None = Field(None)
     access_token_secure: bool = Field(False)
     access_token_httponly: bool = Field(False)
-    access_token_samesite: typing.Literal["lax", "strict", "none"] | None = Field('lax')
+    access_token_samesite: typing.Literal['lax', 'strict', 'none'] | None = Field('lax')
 
     refresh_token_name: str = Field('refresh')
     refresh_token_expires: timedelta = Field(timedelta(weeks=2))
@@ -72,7 +76,7 @@ class QuickJWTConfig(BaseSettings):
     refresh_token_domain: str | None = Field(None)
     refresh_token_secure: bool = Field(False)
     refresh_token_httponly: bool = Field(False)
-    refresh_token_samesite: typing.Literal["lax", "strict", "none"] | None = Field('lax')
+    refresh_token_samesite: typing.Literal['lax', 'strict', 'none'] | None = Field('lax')
 
     encode_algorithm: str | None = Field('HS256')
     encode_headers: dict[str, Any] | None = Field(None)
@@ -89,268 +93,268 @@ class QuickJWTConfig(BaseSettings):
     decode_leeway: float | timedelta = Field(0)
 
     def __init__(
-            self,
-            encode_key: Annotated[
-                str | bytes,
-                Doc(
-                    """
+        self,
+        encode_key: Annotated[
+            str | bytes,
+            Doc(
+                """
                     Key used for encoding JWT tokens (required)
                     """
-                )
-            ],
-            decode_key: Annotated[
-                str | bytes,
-                Doc(
-                    """
+            ),
+        ],
+        decode_key: Annotated[
+            str | bytes,
+            Doc(
+                """
                     Key used for decoding JWT tokens (required)
                     """
-                )
-            ],
-            driver: Annotated[
-                PyJWT | Any,
-                Doc(
-                    """
+            ),
+        ],
+        driver: Annotated[
+            PyJWT | Any,
+            Doc(
+                """
                     JWT library driver instance
                     Default: PyJWT()
                     """
-                )
-            ] = PyJWT(),
-            access_token_name: Annotated[
-                str,
-                Doc(
-                    """
+            ),
+        ] = PyJWT(),
+        access_token_name: Annotated[
+            str,
+            Doc(
+                """
                     Name of the access token cookie
                     Default: 'access'
                     """
-                )
-            ] = 'access',
-            access_token_expires: Annotated[
-                timedelta,
-                Doc(
-                    """
+            ),
+        ] = 'access',
+        access_token_expires: Annotated[
+            timedelta,
+            Doc(
+                """
                     Expiration time for access tokens
                     Default: 2 days
                     """
-                )
-            ] = timedelta(days=2),
-            access_token_path: Annotated[
-                str | None,
-                Doc(
-                    """
+            ),
+        ] = timedelta(days=2),
+        access_token_path: Annotated[
+            str | None,
+            Doc(
+                """
                     Cookie path for access token
                     Default: '/'
                     """
-                )
-            ] = '/',
-            access_token_domain: Annotated[
-                str | None,
-                Doc(
-                    """
+            ),
+        ] = '/',
+        access_token_domain: Annotated[
+            str | None,
+            Doc(
+                """
                     Cookie domain for access token
                     Default: None
                     """
-                )
-            ] = None,
-            access_token_secure: Annotated[
-                bool,
-                Doc(
-                    """
+            ),
+        ] = None,
+        access_token_secure: Annotated[
+            bool,
+            Doc(
+                """
                     Secure flag for access token cookie
                     Default: False
                     """
-                )
-            ] = False,
-            access_token_httponly: Annotated[
-                bool,
-                Doc(
-                    """
+            ),
+        ] = False,
+        access_token_httponly: Annotated[
+            bool,
+            Doc(
+                """
                     HttpOnly flag for access token cookie
                     Default: False
                     """
-                )
-            ] = False,
-            access_token_samesite: Annotated[
-                typing.Literal["lax", "strict", "none"] | None,
-                Doc(
-                    """
+            ),
+        ] = False,
+        access_token_samesite: Annotated[
+            typing.Literal['lax', 'strict', 'none'] | None,
+            Doc(
+                """
                     SameSite policy for access token cookie
                     Default: 'lax'
                     """
-                )
-            ] = 'lax',
-            refresh_token_name: Annotated[
-                str,
-                Doc(
-                    """
+            ),
+        ] = 'lax',
+        refresh_token_name: Annotated[
+            str,
+            Doc(
+                """
                     Name of the refresh token cookie
                     Default: 'refresh'
                     """
-                )
-            ] = 'refresh',
-            refresh_token_expires: Annotated[
-                timedelta,
-                Doc(
-                    """
+            ),
+        ] = 'refresh',
+        refresh_token_expires: Annotated[
+            timedelta,
+            Doc(
+                """
                     Expiration time for refresh tokens
                     Default: 2 weeks
                     """
-                )
-            ] = timedelta(weeks=2),
-            refresh_token_path: Annotated[
-                str | None,
-                Doc(
-                    """
+            ),
+        ] = timedelta(weeks=2),
+        refresh_token_path: Annotated[
+            str | None,
+            Doc(
+                """
                     Cookie path for refresh token
                     Default: '/'
                     """
-                )
-            ] = '/',
-            refresh_token_domain: Annotated[
-                str | None,
-                Doc(
-                    """
+            ),
+        ] = '/',
+        refresh_token_domain: Annotated[
+            str | None,
+            Doc(
+                """
                     Cookie domain for refresh token
                     Default: None
                     """
-                )
-            ] = None,
-            refresh_token_secure: Annotated[
-                bool,
-                Doc(
-                    """
+            ),
+        ] = None,
+        refresh_token_secure: Annotated[
+            bool,
+            Doc(
+                """
                     Secure flag for refresh token cookie
                     Default: False
                     """
-                )
-            ] = False,
-            refresh_token_httponly: Annotated[
-                bool,
-                Doc(
-                    """
+            ),
+        ] = False,
+        refresh_token_httponly: Annotated[
+            bool,
+            Doc(
+                """
                     HttpOnly flag for refresh token cookie
                     Default: False
                     """
-                )
-            ] = False,
-            refresh_token_samesite: Annotated[
-                typing.Literal["lax", "strict", "none"] | None,
-                Doc(
-                    """
+            ),
+        ] = False,
+        refresh_token_samesite: Annotated[
+            typing.Literal['lax', 'strict', 'none'] | None,
+            Doc(
+                """
                     SameSite policy for refresh token cookie
                     Default: 'lax'
                     """
-                )
-            ] = 'lax',
-            encode_algorithm: Annotated[
-                str | None,
-                Doc(
-                    """
+            ),
+        ] = 'lax',
+        encode_algorithm: Annotated[
+            str | None,
+            Doc(
+                """
                     Algorithm used for encoding tokens
                     Default: 'HS256'
                     """
-                )
-            ] = 'HS256',
-            encode_headers: Annotated[
-                dict[str, Any] | None,
-                Doc(
-                    """
+            ),
+        ] = 'HS256',
+        encode_headers: Annotated[
+            dict[str, Any] | None,
+            Doc(
+                """
                     Additional headers to include in encoded tokens
                     Default: None
                     """
-                )
-            ] = None,
-            encode_json_encoder: Annotated[
-                type[json.JSONEncoder] | None,
-                Doc(
-                    """
+            ),
+        ] = None,
+        encode_json_encoder: Annotated[
+            type[json.JSONEncoder] | None,
+            Doc(
+                """
                     Custom JSON encoder for token payload
                     Default: None
                     """
-                )
-            ] = None,
-            encode_sort_headers: Annotated[
-                bool,
-                Doc(
-                    """
+            ),
+        ] = None,
+        encode_sort_headers: Annotated[
+            bool,
+            Doc(
+                """
                     Whether to sort headers when encoding
                     Default: True
                     """
-                )
-            ] = True,
-            decode_algorithms: Annotated[
-                Sequence[str] | None,
-                Doc(
-                    """
+            ),
+        ] = True,
+        decode_algorithms: Annotated[
+            Sequence[str] | None,
+            Doc(
+                """
                     List of allowed algorithms for decoding
                     Default: ['HS256']
                     """
-                )
-            ] = ('HS256',),
-            decode_options: Annotated[
-                dict[str, Any] | None,
-                Doc(
-                    """
+            ),
+        ] = ('HS256',),
+        decode_options: Annotated[
+            dict[str, Any] | None,
+            Doc(
+                """
                     Dictionary of decoding options
                     Default: None
                     """
-                )
-            ] = None,
-            decode_verify: Annotated[
-                bool | None,
-                Doc(
-                    """
+            ),
+        ] = None,
+        decode_verify: Annotated[
+            bool | None,
+            Doc(
+                """
                     Whether to verify the token when decoding
                     Default: None
                     """
-                )
-            ] = None,
-            decode_detached_payload: Annotated[
-                bytes | None,
-                Doc(
-                    """
+            ),
+        ] = None,
+        decode_detached_payload: Annotated[
+            bytes | None,
+            Doc(
+                """
                     Detached payload for decoding
                     Default: None
                     """
-                )
-            ] = None,
-            decode_audience: Annotated[
-                str | Iterable[str] | None,
-                Doc(
-                    """
+            ),
+        ] = None,
+        decode_audience: Annotated[
+            str | Iterable[str] | None,
+            Doc(
+                """
                     Expected audience value(s) for verification
                     Default: None
                     """
-                )
-            ] = None,
-            decode_subject: Annotated[
-                str | None,
-                Doc(
-                    """
+            ),
+        ] = None,
+        decode_subject: Annotated[
+            str | None,
+            Doc(
+                """
                     Expected subject for verification
                     Default: None
                     """
-                )
-            ] = None,
-            decode_issuer: Annotated[
-                str | Sequence[str] | None,
-                Doc(
-                    """
+            ),
+        ] = None,
+        decode_issuer: Annotated[
+            str | Sequence[str] | None,
+            Doc(
+                """
                     Expected issuer for verification
                     Default: None
                     """
-                )
-            ] = None,
-            decode_leeway: Annotated[
-                float | timedelta,
-                Doc(
-                    """
+            ),
+        ] = None,
+        decode_leeway: Annotated[
+            float | timedelta,
+            Doc(
+                """
                     Leeway time for expiration verification
                     Default: 0
                     """
-                )
-            ] = 0,
-            **kwargs
-    ):
+            ),
+        ] = 0,
+        **kwargs: Any,
+    ) -> None:
         super().__init__(
             driver=driver,
             encode_key=encode_key,
@@ -381,7 +385,7 @@ class QuickJWTConfig(BaseSettings):
             decode_subject=decode_subject,
             decode_issuer=decode_issuer,
             decode_leeway=decode_leeway,
-            **kwargs
+            **kwargs,
         )
 
     def build_encode_params(self) -> JWTEncodeKwargs:

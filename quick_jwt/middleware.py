@@ -13,12 +13,10 @@ class QuickJWTMiddleware:
     def __init__(self, app: ASGIApp, config: QuickJWTConfig):
         self.app = app
         if isinstance(config, QuickJWTConfig) is False:
-            raise Exception(
-                """Invalid type "config" param in QuickJWTMiddleware"""
-            )
+            raise Exception("""Invalid type "config" param in QuickJWTMiddleware""")
         self.config = config
 
-    async def __call__(self, scope: Scope, receive: Receive, send: Send):
+    async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
         if scope['type'] in ('http',):
             request = Request(scope, receive)
             request.state.quick_jwt_config = self.config

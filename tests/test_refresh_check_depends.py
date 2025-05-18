@@ -13,6 +13,7 @@ def test_refresh_check_depends():
         encode_key=key,
         decode_key=key,
     )
+
     class Payload(BaseModel):
         sub: UUID
 
@@ -30,9 +31,7 @@ def test_refresh_check_depends():
         'eyJzdWIiOiI3MzAzMTcwNC0wNzk5LTRjNGUtODY4OS0zYjkxZDM1YzJkMTgifQ.'
         'rs-zlSQ6wuNFQY7Unpt02iM1qNCqOc1uYu42F-VuAz8'
     )
-    headers = {
-        'Authorization': f'Bearer {access}'
-    }
+    headers = {'Authorization': f'Bearer {access}'}
     response = client.get('/', headers=headers)
 
     assert response.status_code == status.HTTP_200_OK
@@ -45,6 +44,7 @@ def test_refresh_check_depends_invalid_token():
         encode_key=key,
         decode_key=key,
     )
+
     class Payload(BaseModel):
         sub: UUID
 
@@ -56,12 +56,8 @@ def test_refresh_check_depends_invalid_token():
 
     app.add_middleware(QuickJWTMiddleware, quick_jwt_config)
     client = TestClient(app)
-    access = (
-        'invalid_token'
-    )
-    headers = {
-        'Authorization': f'Bearer {access}'
-    }
+    access = 'invalid_token'
+    headers = {'Authorization': f'Bearer {access}'}
     response = client.get('/', headers=headers)
 
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
@@ -73,6 +69,7 @@ def test_refresh_check_depends_invalid_bearer():
         encode_key=key,
         decode_key=key,
     )
+
     class Payload(BaseModel):
         sub: UUID
 
@@ -84,12 +81,8 @@ def test_refresh_check_depends_invalid_bearer():
 
     app.add_middleware(QuickJWTMiddleware, quick_jwt_config)
     client = TestClient(app)
-    access = (
-        'invalid_token'
-    )
-    headers = {
-        'Authorization': f'Invalid {access}'
-    }
+    access = 'invalid_token'
+    headers = {'Authorization': f'Invalid {access}'}
     response = client.get('/', headers=headers)
 
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
@@ -101,6 +94,7 @@ def test_refresh_check_depends_cookies():
         encode_key=key,
         decode_key=key,
     )
+
     class Payload(BaseModel):
         sub: UUID
 
@@ -116,9 +110,7 @@ def test_refresh_check_depends_cookies():
         'eyJzdWIiOiI3MzAzMTcwNC0wNzk5LTRjNGUtODY4OS0zYjkxZDM1YzJkMTgifQ.'
         'rs-zlSQ6wuNFQY7Unpt02iM1qNCqOc1uYu42F-VuAz8'
     )
-    cookies = [
-        ('refresh', refresh)
-    ]
+    cookies = [('refresh', refresh)]
     client = TestClient(app, cookies=cookies)
     sub = '73031704-0799-4c4e-8689-3b91d35c2d18'
 
@@ -134,6 +126,7 @@ def test_refresh_check_depends_invalid_token_cookies():
         encode_key=key,
         decode_key=key,
     )
+
     class Payload(BaseModel):
         sub: UUID
 
@@ -144,12 +137,8 @@ def test_refresh_check_depends_invalid_token_cookies():
         return payload  # pragma: no cover
 
     app.add_middleware(QuickJWTMiddleware, quick_jwt_config)
-    refresh = (
-        'invalid_token'
-    )
-    cookies = [
-        ('refresh', refresh)
-    ]
+    refresh = 'invalid_token'
+    cookies = [('refresh', refresh)]
     client = TestClient(app, cookies=cookies)
 
     response = client.get('/')
