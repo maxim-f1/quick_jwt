@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "quick-jwt"
-version = "0.0.1"
+version = "0.0.2"
 description = ""
 authors = ["maxim-f1 <maxconal228@gmail.com>"]
 readme = "README.md"
