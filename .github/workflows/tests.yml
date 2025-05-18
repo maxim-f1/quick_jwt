@@ -54,3 +54,28 @@ jobs:
       - name: Coverage report
         working-directory: ./
         run: poetry run coverage report
+
+      - name: Generate coverage report
+        if: matrix.python-version == '3.13'
+        working-directory: ./
+        run: |
+          poetry run coverage report
+          COVERAGE=$(poetry run coverage report | grep TOTAL | awk '{print $NF}' | sed 's/%//')
+          echo "Coverage: $COVERAGE%" > coverage_status.txt
+
+      - name: Update GitHub status with coverage
+        if: matrix.python-version == '3.13'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            const coverage = fs.readFileSync('coverage_status.txt', 'utf8').trim();
+            await github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.sha,
+              state: 'success',
+              target_url: 'https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}',
+              description: coverage,
+              context: 'coverage'
+            });
