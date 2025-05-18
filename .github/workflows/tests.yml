@@ -20,7 +20,7 @@ jobs:
           poetry-version: "1.8.3"
 
       - name: Setup a local virtual environment
-        working-directory: ./
+        working-directory: ./lib
         run: poetry config virtualenvs.create false --local
 
       - uses: actions/cache@v3
@@ -30,9 +30,9 @@ jobs:
           key: venv-${{ hashFiles('poetry.lock') }}
 
       - name: Install the project dependencies
-        working-directory: ./
+        working-directory: ./lib
         run: poetry install --no-root --no-interaction --no-ansi
 
       - name: Run the automated tests
-        working-directory: ./
+        working-directory: ./lib
         run: poetry run coverage run -m pytest . -vv
