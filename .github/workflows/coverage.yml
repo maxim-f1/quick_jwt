@@ -1,10 +1,8 @@
-name: Coverage
+name: coverage
 run-name: Started Coverage by @${{ github.actor }}
 
 on:
   push:
-    branches:
-    - "master"
 
 jobs:
   coverage:
