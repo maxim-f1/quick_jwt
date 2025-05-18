@@ -35,4 +35,4 @@ jobs:
 
       - name: Run the automated tests
         working-directory: ./
-        run: poetry run coverage pytest . -vv
+        run: poetry run coverage run -m pytest . -vv
