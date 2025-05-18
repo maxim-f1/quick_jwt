@@ -3,8 +3,6 @@ run-name: Started Coverage by @${{ github.actor }}
 
 on:
   push:
-    branches:
-      - '0.0.3'
 
 jobs:
   test_suite:
