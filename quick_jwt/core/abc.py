@@ -17,6 +17,7 @@ class IDecodeDriverJWT(metaclass=abc.ABCMeta):
     providing methods to extract payloads from both bearer tokens and cookies.
     """
 
+    @abc.abstractmethod
     def _get_payload(
             self,
             bearer_token: HTTPAuthorizationCredentials | None,
@@ -35,8 +36,9 @@ class IDecodeDriverJWT(metaclass=abc.ABCMeta):
         Raises:
             HTTPException: If no valid token is provided or if token verification fails.
         """
-        pass  # pragma: no cover
+        pass
 
+    @abc.abstractmethod
     def _get_payload_optional(
             self,
             bearer_token: HTTPAuthorizationCredentials | None,
@@ -56,7 +58,7 @@ class IDecodeDriverJWT(metaclass=abc.ABCMeta):
             This method differs from _get_payload by returning None instead of raising
             exceptions when token verification fails or no token is provided.
         """
-        pass  # pragma: no cover
+        pass
 
 
 class IEncodeDriverJWT(metaclass=abc.ABCMeta):
@@ -66,6 +68,7 @@ class IEncodeDriverJWT(metaclass=abc.ABCMeta):
     providing methods to create both access and refresh tokens either together or separately.
     """
 
+    @abc.abstractmethod
     async def create_jwt_tokens(
             self,
             access_payload: BaseModel,
@@ -87,8 +90,9 @@ class IEncodeDriverJWT(metaclass=abc.ABCMeta):
             Implementations should handle proper signing and expiration times according
             to the configured JWT settings.
         """
-        pass  # pragma: no cover
+        pass
 
+    @abc.abstractmethod
     async def create_access_token(self, access_payload: BaseModel) -> str:
         """Create only an access token asynchronously.
 
@@ -103,8 +107,9 @@ class IEncodeDriverJWT(metaclass=abc.ABCMeta):
             The token should be signed and include expiration as configured in JWT settings.
             Typically has a shorter lifespan than refresh tokens.
         """
-        pass  # pragma: no cover
+        pass
 
+    @abc.abstractmethod
     async def create_refresh_token(self, refresh_payload: BaseModel) -> str:
         """Create only a refresh token asynchronously.
 
@@ -120,31 +125,32 @@ class IEncodeDriverJWT(metaclass=abc.ABCMeta):
             Typically has a longer lifespan than access tokens and is used solely for
             obtaining new access tokens.
         """
-        pass  # pragma: no cover
+        pass
 
 
 class BaseJWT(metaclass=abc.ABCMeta):
     __slots__ = (
-        '_config',
-        '_request',
-        '_response',
+        "_config",
+        "_request",
+        "_response",
     )
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._config: QuickJWTConfig | None = None
         self._request: Request | None = None
         self._response: Response | None = None
 
-    def _setup_call_function_params(self, request: Request, response: Response):
+    def _setup_call_function_params(self, request: Request, response: Response) -> None:
         self._request = request
         self._response = response
         self._config = self._get_config_from_request()
 
     def _get_config_from_request(self) -> QuickJWTConfig:
         if self._request is None:
-            raise AttributeError('_reqeust field not found')
+            raise AttributeError("_reqeust field not found")
         try:
-            return self._request.state.quick_jwt_config
+            config: QuickJWTConfig = self._request.state.quick_jwt_config
+            return config
         except AttributeError:
             raise Exception(
                 """
@@ -158,6 +164,17 @@ class BaseJWT(metaclass=abc.ABCMeta):
                 """
             )
 
-    def _validate_call_function_is_called(self):
-        if self._config is None or self._request is None or self._response is None:
-            raise Exception('The __call__ function was not called.')
+    def _get_config(self) -> QuickJWTConfig:
+        if self._config is None:
+            raise Exception("The __call__ function was not called.")
+        return self._config
+
+    def _get_request(self) -> Request:
+        if self._request is None:
+            raise Exception("The __call__ function was not called.")
+        return self._request
+
+    def _get_response(self) -> Response:
+        if self._response is None:
+            raise Exception("The __call__ function was not called.")
+        return self._response

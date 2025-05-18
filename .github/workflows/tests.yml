@@ -39,6 +39,14 @@ jobs:
         working-directory: ./
         run: poetry install --no-root --no-interaction --no-ansi
 
+      - name: MyPy check
+        working-directory: ./
+        run: poetry run mypy .
+
+      - name: Ruff code style check
+        working-directory: ./
+        run: poetry run ruff check .
+
       - name: Run the automated tests
         working-directory: ./
         run: poetry run coverage run -m pytest . -vv
