@@ -39,4 +39,4 @@ class SetCookieKwargs(TypedDict, total=False):
     domain: str | None
     secure: bool
     httponly: bool
-    samesite: typing.Literal["lax", "strict", "none"] | None
+    samesite: typing.Literal['lax', 'strict', 'none'] | None
