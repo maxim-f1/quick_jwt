@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+         <loc>https://maxim-f1.github.io/quick_jwt/</loc>
+         <lastmod>2025-05-20</lastmod>
+    </url>
+    <url>
+         <loc>https://maxim-f1.github.io/quick_jwt/install/</loc>
+         <lastmod>2025-05-20</lastmod>
+    </url>
+    <url>
+         <loc>https://maxim-f1.github.io/quick_jwt/setup/</loc>
+         <lastmod>2025-05-20</lastmod>
+    </url>
+    <url>
+         <loc>https://maxim-f1.github.io/quick_jwt/usage/check_jwt/</loc>
+         <lastmod>2025-05-20</lastmod>
+    </url>
+    <url>
+         <loc>https://maxim-f1.github.io/quick_jwt/usage/check_jwt_optional/</loc>
+         <lastmod>2025-05-20</lastmod>
+    </url>
+    <url>
+         <loc>https://maxim-f1.github.io/quick_jwt/usage/create_jwt/</loc>
+         <lastmod>2025-05-20</lastmod>
+    </url>
+    <url>
+         <loc>https://maxim-f1.github.io/quick_jwt/usage/logout_jwt/</loc>
+         <lastmod>2025-05-20</lastmod>
+    </url>
+    <url>
+         <loc>https://maxim-f1.github.io/quick_jwt/usage/refresh_jwt/</loc>
+         <lastmod>2025-05-20</lastmod>
+    </url>
+</urlset>
