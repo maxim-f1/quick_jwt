@@ -22,6 +22,8 @@
 **Source Code**: <a href="https://github.com/maxim-f1/quick_jwt" target="_blank">https://github.com/maxim-f1/quick_jwt</a>
 **Documentation** <a href="https://maxim-f1.github.io/quick_jwt/" target="_blank">https://maxim-f1.github.io/quick_jwt/</a>
 
+**Documentation** <a href="https://maxim-f1.github.io/quick_jwt/" target="_blank">https://maxim-f1.github.io/quick_jwt/</a>
+
 ---
 
 Quick JWT is a lightweight and convenient solution for handling JWT token-based authorization.
