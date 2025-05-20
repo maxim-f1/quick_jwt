@@ -1,4 +1,48 @@
 site_name: Quick JWT
-site_url: https://mydomain.org/mysite
+site_description: Quick JWT library for authorization in FastAPI applications
+site_url: https://maxim-f1.github.io/quick_jwt/
+
+nav:
+  - install.md
+  - setup.md
+  - Usage:
+      - usage/create_jwt.md
+      - usage/check_jwt.md
+      - usage/check_jwt_optional.md
+      - usage/refresh_jwt.md
+      - usage/logout_jwt.md
+
+
 theme:
   name: material
+  features:
+    - navigation.indexes
+    - content.code.copy
+    - content.code.select
+    - content.code.annotate
+  language: en
+  palette:
+    # Palette toggle for dark mode
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+    # Palette toggle for light mode
+    - scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences

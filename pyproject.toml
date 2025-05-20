@@ -1,10 +1,11 @@
 [project]
 requires-python = ">=3.12"
+name = "quick-jwt"
 
 
 [tool.poetry]
 name = "quick-jwt"
-version = "0.0.3"
+version = "0.0.4"
 description = "Quick JWT library for authorization in FastAPI applications"
 readme = "README.md"
 authors = ["Frolov Maxim <m.frolov.2003@gmail.com>"]
