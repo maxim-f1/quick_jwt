@@ -17,7 +17,8 @@ nav:
 
 theme:
   name: material
-  logo: assets/logo.svg
+  logo: assets/images/logo.svg
+  favicon: assets/images/favicon.png
   features:
     - navigation.indexes
     - content.code.copy
