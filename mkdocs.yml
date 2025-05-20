@@ -1,6 +1,8 @@
 site_name: Quick JWT
 site_description: Quick JWT library for authorization in FastAPI applications
 site_url: https://maxim-f1.github.io/quick_jwt/
+repo_url: https://github.com/maxim-f1/quick_jwt
+repo_name: quick_jwt
 
 nav:
   - install.md
@@ -15,6 +17,7 @@ nav:
 
 theme:
   name: material
+  logo: assets/logo.svg
   features:
     - navigation.indexes
     - content.code.copy
@@ -46,3 +49,9 @@ markdown_extensions:
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.superfences
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/maxim-f1/quick_jwt
+      name: quick_jwt
