@@ -1,7 +1,9 @@
 name: build mkdocs
 
 on:
-  push
+  push:
+    branches:
+      - master
 
 permissions:
   contents: write
