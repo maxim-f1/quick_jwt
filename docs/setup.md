@@ -2,9 +2,9 @@
 
 To customize the library, you will need to do a few simple things.
 
-!!! note 
+!!! note "Prerequisites"
 
-    Make sure you have installed the library. How to do this was explained on the previous page.
+    Make sure you have installed the library. How to do this was explained on the previous <a href="https://maxim-f1.github.io/quick_jwt/install/">install</a> page.
 
 ## Setting variables
 
